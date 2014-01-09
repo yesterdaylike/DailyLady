@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/listitem_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:padding="@dimen/listitem_padding"
+        android:textSize="18sp"
+        android:layout_alignParentTop="true" />
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:scrollbars="none"
+        android:layout_height="@dimen/listitem_group_height"
+        android:layout_below="@id/listitem_title" >
+
+        <LinearLayout
+            android:id="@+id/listitem_preview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" />
+    </HorizontalScrollView>
+
+    <ImageButton
+        android:id="@+id/listitem_group"
+        android:layout_width="@dimen/listitem_group_width"
+        android:layout_height="@dimen/listitem_group_height"
+        android:layout_alignParentRight="true"
+        android:background="#4f0f0f0f"
+        android:onClick="onClickGroup"
+        android:src="@drawable/abs__ic_go"
+        android:layout_below="@id/listitem_title"
+        android:contentDescription="@string/app_name" />
+
+</RelativeLayout>
