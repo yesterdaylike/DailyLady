@@ -10,6 +10,7 @@
     <string name="toggle_play">播放</string>
     <string name="toggle_automatic_rotation">自动旋转</string>
     <string name="app_name">每日美女</string>
+    <string name="play_sound">音效</string>
     <string name="menu_zoom_enable">Enable Zoom</string>
     <string name="menu_zoom_disable">Disable Zoom</string>
     <string name="menu_scale_fit_center">Change to FIT_CENTER</string>

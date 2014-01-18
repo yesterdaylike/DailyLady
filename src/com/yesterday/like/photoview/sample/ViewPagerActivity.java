@@ -2,6 +2,7 @@ package com.yesterday.like.photoview.sample;
 
 import net.youmi.android.spot.SpotManager;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
@@ -37,15 +38,53 @@ public class ViewPagerActivity extends SherlockActivity {
 	private boolean playing = false;
 	private ImageLoader imageLoader = ImageLoader.getInstance();
 	private DisplayImageOptions options;
+	private boolean playSound = false;
 	//private int height;
 	//private int width;
+	private MediaPlayer mediaPlayer;
+	public static int [] raws = {
+		R.raw.akari_hosoda,
+		R.raw.anri_sugihara,
+		R.raw.fukasawa,
+		R.raw.kana_tsugihara,
+		R.raw.may_iikubo,
+		R.raw.morishita,
+		R.raw.nozomi_kawasaki,
+		R.raw.saori_yamamoto,
+		R.raw.saya_hikita,
+		R.raw.sayaka_numajiri,
+		R.raw.sayaka_uchida,
+		R.raw.shizuka_miyazawa,
+		R.raw.takahashi,
+		R.raw.takaou_ayatsuki,
+		R.raw.takayo_oyama,
+		R.raw.tamiko_hasunuma,
+		R.raw.toyomi_suzuki,
+		R.raw.yu_misaki,
+		R.raw.yui_minami,
+		R.raw.yuika_hotta,
+		R.raw.yuka_hirose,
+		R.raw.yuka_kawamoto,
+		R.raw.yuka_mizusawa,
+		R.raw.yukiko_nanase,
+		R.raw.yuko_nakazawa,
+		R.raw.yuko_ogura,
+		R.raw.yumi_ishikawa,
+		R.raw.yuri_himegami,
+		R.raw.yuri_kimura,
+		R.raw.yurina_inoue,
+		R.raw.yuu_tejima,
+		R.raw.yuuna_kawai,
+		R.raw.yuuri_morishita,
+	};
+
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setTheme(R.style.Theme_Sherlock_Light);
 		setContentView(R.layout.view_pager);
-		
+
 		mViewPager = (ViewPager)findViewById(R.id.photo_viewpager);
 		/*DisplayMetrics displayMetrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(displayMetrics); 
@@ -76,6 +115,16 @@ public class ViewPagerActivity extends SherlockActivity {
 				Log.e("currentPage NUM_PAGES", " "+currentPage+" "+NUM_PAGES);
 				if(currentPage == NUM_PAGES-1 ){
 					SpotManager.getInstance(ViewPagerActivity.this).showSpotAds(ViewPagerActivity.this);
+				}
+
+				if(playSound){
+					if(mediaPlayer!=null){
+						mediaPlayer.reset();
+					}
+					mediaPlayer=MediaPlayer.create(ViewPagerActivity.this, 
+							raws[currentPage%raws.length]);
+					mediaPlayer.setLooping(true);
+					mediaPlayer.start();
 				}
 			}
 
@@ -149,6 +198,10 @@ public class ViewPagerActivity extends SherlockActivity {
 		//subMenuResetItem.setTitle("Reset");
 		//subMenu1Item.setIcon(R.drawable.ic_title_share_default);
 		subMenuResetItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+
+		menu.add(Menu.NONE, 3, Menu.NONE, R.string.play_sound)
+		.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -181,7 +234,11 @@ public class ViewPagerActivity extends SherlockActivity {
 			currentRotation = 270;
 			mCurPhoto.setPhotoViewRotation(currentRotation);
 			return true;
+		case 3:
+			playSound = !playSound;
+			return true;
 		}
+
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -201,9 +258,9 @@ public class ViewPagerActivity extends SherlockActivity {
 			@Override
 			public void run() {
 				if (currentPage == NUM_PAGES - 1) {
-                    currentPage = 0;
-                }
-                mViewPager.setCurrentItem(currentPage+1, true);
+					currentPage = 0;
+				}
+				mViewPager.setCurrentItem(currentPage+1, true);
 				playLoop();
 			}
 		}, 5000);
@@ -227,5 +284,14 @@ public class ViewPagerActivity extends SherlockActivity {
 				rotateLoop();
 			}
 		}, 15);
+	}
+	@Override
+	protected void onDestroy() {
+		if(mediaPlayer!=null){
+			mediaPlayer.stop();
+			mediaPlayer.release();
+			mediaPlayer=null;
+		}
+		super.onDestroy();
 	}
 }

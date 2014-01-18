@@ -1,5 +1,6 @@
 <resources>
 
+    <string name="play_sound">sound</string>
     <string name="no_try_label">try later!</string>
     <string name="toggle_start_play">start play</string>
     <string name="toggle_stop_play">stop play</string>
